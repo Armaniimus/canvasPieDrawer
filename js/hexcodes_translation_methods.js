@@ -189,13 +189,3 @@ function TranslateHueToShade(inputHex) {
 
     return outputHex;
 }
-
-let hex = "#FC600A";
-let tint = TranslateHueToTint(hex);
-let tone = TranslateHueToTone(hex);
-let shade = TranslateHueToShade(hex);
-
-
-console.log("tint " + tint);
-console.log("tone " + tone);
-console.log("shade " + shade);
