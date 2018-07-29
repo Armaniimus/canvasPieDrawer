@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body{ margin:10px; background:#CCC; }
+#my_canvas{ background:#FFF; border:#000 1px solid; }
+</style>
+<script>
+function initCanvas(){
+    var ctx = document.getElementById('my_canvas').getContext('2d');
+    var cW = ctx.canvas.width, cH = ctx.canvas.height;
+    // Constructor for rectangular assets
+    function rectObj(startX, startY, height, width, color) {
+        this.x = startX;
+        this.y = startY;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+
+        this.render = function() {
+            ctx.fillStyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+    // Establish Assets outside of the animate function
+    // to avoid re-creating them each time the function runs
+
+    var rect1 = new rectObj(0, 0,  50, 50, "magenta");
+    var rect2 = new rectObj(0, 50, 50, 50, "blue");
+    rect2.y = 100;
+    function animate(){
+        ctx.clearRect(0, 0, cW, cH);
+        // Draw here
+        rect1.render();
+        rect2.render();
+        rect1.x++;
+        rect2.x++;
+    }
+    var animateInterval = setInterval(animate, 30);
+}
+window.addEventListener('load', function(event) {
+    initCanvas();
+});
+</script>
+</head>
+<body>
+<canvas id="my_canvas" width="500" height="300"></canvas>
+</body>
+</html>
