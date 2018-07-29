@@ -39,20 +39,3 @@ function DrawCirclePiece(x, y, radius, thickness, startAngle, endAngle) {
     ctx.arc(x, y, radius,               startAngle * Math.PI,   endAngle * Math.PI, false);
     ctx.arc(x, y, radius - thickness,   endAngle * Math.PI,     startAngle * Math.PI, true);
 }
-
-function DrawCircle(array) {
-    for (let i = 0; i < array.length; i++) {
-        DrawCirclePiece(array[i]["x"], array[i]["y"], array[i].radius, array[i].thickness, array[i].startAngle, array[i].endAngle);
-        ctx.strokeStyle = "000";
-        ctx.lineWidth = 0.4;
-        ctx.fillStyle = array[i]["color"];
-        ctx.fill();
-        ctx.stroke();
-    }
-}
-
-function DrawPie(array) {
-    for (let i = 0; i < array.length; i++) {
-        DrawPiePiece(array[i]["x"], array[i]["y"], array[i].radius, array[i].startAngle, array[i].endAngle, array[i]["color"]);
-    }
-}
