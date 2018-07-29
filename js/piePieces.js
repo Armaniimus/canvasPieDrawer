@@ -19,30 +19,27 @@ function GenerateCanvas() {
     //position variables
     centerX = canvas.width / 2;
     centerY = canvas.height / 2;
-    offsetX = getOffsetX("newcanvas");
-    offsetY = getOffsetY("newcanvas");
+    offsetX = GetOffsetX("newcanvas");
+    offsetY = GetOffsetY("newcanvas");
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    //
-    // ctx.fillStyle = backgroundColor;
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    let startAngle = 0.32;
+    let startAngle = 0;
 
     GenerateTints(startAngle);
-    drawCircle(scoreE);
+    DrawCircle(scoreE);
 
     GenerateHues(startAngle);
-    drawCircle(scoreE);
+    DrawCircle(scoreE);
 
     GenerateTones(startAngle);
-    drawCircle(scoreE);
+    DrawCircle(scoreE);
 
     GenerateShades(startAngle);
-    drawCircle(scoreE);
+    DrawCircle(scoreE);
 
-    GenerateInnerCircle();
-    DrawPie(scoreE);
+    // GenerateInnerCircle();
+    // DrawPie(scoreE);
 
     let signs = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
     DrawClockLikeWords(signs, ctx, canvas.width * 0.17, startAngle, canvas.width * 0.03);
@@ -51,7 +48,7 @@ function GenerateCanvas() {
 function GenerateInnerCircle() {
     scoreE = [];
     scoreE[0] = {x:centerX, y:centerY, startAngle: -0.00, endAngle: 2 , color: "#fff"};
-    scoreE[0]["radius"] = (canvas.width * 0.25);
+    scoreE[0]["radius"] = (canvas.width * 0.25) - 1;
 }
 
 function GenerateHues(startAngle) {
@@ -107,7 +104,6 @@ function GenerateTones(startAngle) {
     let parts = 12;
     let angle = (2 / 3 * 2) + 0.083 + startAngle;
 
-    console.log(" ");
     for (let i = 0; i < parts; i++) {
         scoreE[i] = {x:centerX, y:centerY, radius: 90, thickness: 30, startAngle: angle, endAngle: angle + 0.168};
         scoreE[i]["color"] = TranslateHueToTone(colors[i]);
