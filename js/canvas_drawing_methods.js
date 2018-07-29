@@ -1,24 +1,40 @@
 function DrawClockLikeWords(array, ctx, radius, startAngle, fontSize) {
-    ctx.translate(canvas.height / 2, canvas.height / 2);
-    ctx.font = fontSize + "px arial";
-    ctx.textBaseline = "middle";
-    ctx.textAlign = "center";
-    ctx.fillStyle = '#222';
+    this.fillStyle = '#222';
+    this.array = array;
+    this.radius = radius;
+    this.startAngle = startAngle;
 
-    for(let i = 0; i < array.length; i++){
-        let ang = (i * 2/array.length * Math.PI + startAngle * 3.141593);
-        ctx.rotate(ang);
-        ctx.translate(0, - radius);
-        ctx.rotate(- ang);
-        ctx.fillText(array[i].toString(), 0, 0);
-        ctx.rotate(ang);
-        ctx.translate(0, radius);
-        ctx.rotate(- ang);
+    this.x = canvas.width / 2;
+    this.y = canvas.height / 2;
+
+    this.font = fontSize + "px arial"
+
+    this.render = function() {
+        ctx.font = this.font;
+        ctx.fillStyle = this.fillStyle
+        ctx.textBaseline = "middle";
+        ctx.textAlign = "center";
+
+        ctx.translate(this.x, this.y);
+
+        const max = this.array.length
+        for(let i = 0; i < max; i++){
+            const halfMax = max / 2
+            const ang = (i * Math.PI / halfMax) + (this.startAngle * Math.PI);
+
+            // let ang = (i * 2/array.length * Math.PI + this.startAngle * Math.PI);
+            ctx.rotate(ang);
+            ctx.translate(0, - radius);
+            ctx.rotate(- ang);
+            ctx.fillText(array[i].toString(), 0, 0);
+            ctx.rotate(ang);
+            ctx.translate(0, radius);
+            ctx.rotate(- ang);
+        }
+        ctx.translate(- this.x, - this.y);
     }
-    ctx.translate(- canvas.height / 2, - canvas.height / 2);
 }
 
-// function drawArcs(array) {
 function DrawPiePiece(x, y, radius, startAngle, endAngle, color) {
     ctx.beginPath();
     ctx.arc(x, y, radius, startAngle * Math.PI, endAngle * Math.PI, false);
@@ -28,14 +44,73 @@ function DrawPiePiece(x, y, radius, startAngle, endAngle, color) {
 
 // function drawArcs(array) {
 function DrawCirclePiece(x, y, radius, thickness, startAngle, endAngle) {
-    let startXY = CalcXYBasedOnSinRule(startAngle, radius - thickness, x, y);
-    let firstLine = CalcXYBasedOnSinRule(startAngle, radius, x, y);
+    this.x = x; //sets start x
+    this.y = y; //sets start y
+    this.radius = radius; //sets radius
+    this.thickness = thickness;
+    this.startAngle = startAngle;
+    this.endAngle = endAngle;
 
-    ctx.beginPath();
+    this.strokeStyle = "000";
+    this.lineWidth = 1;
+    this.fillStyle = "000";
 
-    ctx.moveTo(startXY.x, startXY.y);
-    ctx.lineTo(firstLine.x, firstLine.y);
+    this.Render = function() {
+        let startXY = CalcXYBasedOnSinRule(this.startAngle, this.radius - this.thickness, this.x, this.y);
+        let firstLine = CalcXYBasedOnSinRule(this.startAngle, this.radius, this.x, this.y);
 
-    ctx.arc(x, y, radius,               startAngle * Math.PI,   endAngle * Math.PI, false);
-    ctx.arc(x, y, radius - thickness,   endAngle * Math.PI,     startAngle * Math.PI, true);
+        ctx.beginPath();
+
+        ctx.moveTo(startXY.x, startXY.y);
+        ctx.lineTo(firstLine.x, firstLine.y);
+
+        ctx.arc(this.x, this.y, this.radius,                    this.startAngle * Math.PI,   this.endAngle * Math.PI, false);
+        ctx.arc(this.x, this.y, this.radius - this.thickness,   this.endAngle * Math.PI,     this.startAngle * Math.PI, true);
+
+        if (this.fill == true) {
+            ctx.fillStyle = this.fillStyle
+            ctx.fill();
+        }
+
+        if (this.stroke == true) {
+            ctx.lineWidth = this.lineWidth;
+            ctx.strokeStyle = this.strokeStyle;
+            ctx.stroke();
+        }
+    }
+
+    this.ToggleFill = function() {
+        if (this.fill) {
+            this.fill = false
+
+        } else {
+            this.fill = true;
+        }
+    }
+
+    this.ToggleStroke = function() {
+        if (this.stroke) {
+            this.stroke = false
+
+        } else {
+            this.stroke = true;
+        }
+    }
+}
+
+function DrawRectangle(startX, startY, height, width, color) {
+    this.x = startX;
+    this.y = startY;
+    this.width = width;
+    this.height = height;
+    this.color = color;
+
+    this.Render = function() {
+        ctx.fillStyle = this.color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+    }
+
+    ctx.rect(this.x, this.y, this.width,this.height);
+    ctx.fillStyle = this.color;
+    ctx.fill();
 }

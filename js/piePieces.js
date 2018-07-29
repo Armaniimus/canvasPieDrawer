@@ -1,6 +1,6 @@
 //global non specific vars
-let canvas = document.getElementById("newcanvas");
-let ctx = canvas.getContext("2d");
+const canvas = document.getElementById("newcanvas");
+const ctx = canvas.getContext("2d");
 
 //position variables
 let centerX;
@@ -8,9 +8,15 @@ let centerY;
 let offsetX;
 let offsetY;
 
-let scoreE = [];
-let colors = ["#FE2712", "#FC600A", "#FB9902", "#FCCC1A", "#FEFE33", "#B2D732", "#66B032", "#347C98", "#0247FE", "#4424D6", "#8601AF", "#C21460"];
-let backgroundColor = "#252525";
+const scoreE = [];
+const colors = ["#FE2712", "#FC600A", "#FB9902", "#FCCC1A", "#FEFE33", "#B2D732", "#66B032", "#347C98", "#0247FE", "#4424D6", "#8601AF", "#C21460"];
+
+const circleParts = [];
+const words = [];
+
+let startAngle = 0;
+
+
 
 function GenerateCanvas() {
     canvas.width = canvas.offsetWidth;
@@ -23,8 +29,6 @@ function GenerateCanvas() {
     offsetY = GetOffsetY("newcanvas");
 
     ctx.clearRect(0,0,canvas.width,canvas.height);
-
-    let startAngle = 0;
 
     GenerateTints(startAngle);
     DrawCircle(scoreE);
@@ -42,7 +46,7 @@ function GenerateCanvas() {
     // DrawPie(scoreE);
 
     let signs = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
-    DrawClockLikeWords(signs, ctx, canvas.width * 0.17, startAngle, canvas.width * 0.03);
+    words[0] = new DrawClockLikeWords(signs, ctx, canvas.width * 0.17, startAngle, canvas.width * 0.03);
 }
 
 function GenerateInnerCircle() {
@@ -151,12 +155,12 @@ function GenerateTints(startAngle) {
 
 function DrawCircle(array) {
     for (let i = 0; i < array.length; i++) {
-        DrawCirclePiece(array[i]["x"], array[i]["y"], array[i].radius, array[i].thickness, array[i].startAngle, array[i].endAngle);
-        ctx.strokeStyle = "000";
-        ctx.lineWidth = 0.4;
-        ctx.fillStyle = array[i]["color"];
-        ctx.fill();
-        ctx.stroke();
+        const ii = circleParts.length;
+        circleParts[ii] = new DrawCirclePiece(array[i]["x"], array[i]["y"], array[i].radius, array[i].thickness, array[i].startAngle, array[i].endAngle);
+
+        circleParts[ii].strokeStyle = "000";
+        circleParts[ii].lineWidth = 0.4;
+        circleParts[ii].fillStyle = array[i]["color"];
     }
 }
 
@@ -166,5 +170,22 @@ function DrawPie(array) {
     }
 }
 
+function Render() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    RenderCircles()
+    words[0].render();
+}
+
+function RenderCircles() {
+    for (var i = 0; i < circleParts.length; i++) {
+        circleParts[i].ToggleFill();
+        circleParts[i].ToggleStroke();
+        // circleParts[i].ToggleFill();
+        circleParts[i].Render();
+    }
+}
+
+
 GenerateCanvas();
+Render();
 window.addEventListener('resize', GenerateCanvas);
