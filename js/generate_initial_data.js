@@ -2,11 +2,9 @@
 const canvas = document.getElementById("newcanvas");
 const ctx = canvas.getContext("2d");
 
-//position variables
-let centerX;
-let centerY;
-let offsetX;
-let offsetY;
+const canvasData = new setCanvasMetaData();
+canvasData.setIdName("newcanvas");
+canvasData.render();
 
 const scoreE = [];
 const colors = ["#FE2712", "#FC600A", "#FB9902", "#FCCC1A", "#FEFE33", "#B2D732", "#66B032", "#347C98", "#0247FE", "#4424D6", "#8601AF", "#C21460"];
@@ -19,14 +17,6 @@ let startAngle = 0;
 function GenerateCanvas() {
     circleParts = [];
     words = [];
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.width;
-
-    //position variables
-    offsetX = GetOffsetX("newcanvas");
-    offsetY = GetOffsetY("newcanvas");
-    centerX = canvas.width / 2 + offsetX;
-    centerY = canvas.height / 2 + offsetY;
 
     GenerateTints(startAngle);
     DrawCircle(scoreE);
@@ -44,12 +34,12 @@ function GenerateCanvas() {
     // DrawPie(scoreE);
 
     let signs = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
-    words[0] = new DrawClockLikeWords(signs, centerX, centerY, 0.17, startAngle, 0.03);
+    words[0] = new DrawClockLikeWords(signs, canvasData.centX, canvasData.centY, 0.17, startAngle, 0.03);
 }
 
 function GenerateInnerCircle() {
     scoreE = [];
-    scoreE[0] = {x:centerX, y:centerY, startAngle: -0.00, endAngle: 2 , color: "#fff"};
+    scoreE[0] = {x:canvasData.centX, y:canvasData.centY, startAngle: -0.00, endAngle: 2 , color: "#fff"};
     scoreE[0]["radius"] = (0.25) - 1;
 }
 
@@ -58,7 +48,7 @@ function GenerateShades(startAngle) {
     let parts = 12;
     let angle = (2 / 3 * 2) + 0.083 + startAngle;
     for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, startAngle: angle, endAngle: angle + 0.168};
+        scoreE[i] = {x:canvasData.centX, y:canvasData.centY, startAngle: angle, endAngle: angle + 0.168};
         scoreE[i]["color"] = TranslateHueToShade(colors[i]);
         scoreE[i]["thickness"] = 0.05;
         scoreE[i]["radius"] = 0.30;
@@ -83,7 +73,7 @@ function GenerateTones(startAngle) {
     let angle = (2 / 3 * 2) + 0.083 + startAngle;
 
     for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, radius: 90, thickness: 30, startAngle: angle, endAngle: angle + 0.168};
+        scoreE[i] = {x:canvasData.centX, y:canvasData.centY, radius: 90, thickness: 30, startAngle: angle, endAngle: angle + 0.168};
         scoreE[i]["color"] = TranslateHueToTone(colors[i]);
         scoreE[i]["thickness"] = 0.05;
         scoreE[i]["radius"] = 0.35;
@@ -109,7 +99,7 @@ function GenerateHues(startAngle) {
     let angle = (2 / 3 * 2) + 0.083 + startAngle;
 
     for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, startAngle: angle, endAngle: angle + 0.168, color: colors[i]};
+        scoreE[i] = {x:canvasData.centX, y:canvasData.centY, startAngle: angle, endAngle: angle + 0.168, color: colors[i]};
         scoreE[i]["thickness"] = 0.05;
         scoreE[i]["radius"] = 0.40;
 
@@ -132,7 +122,7 @@ function GenerateTints(startAngle) {
     let parts = 12;
     let angle = (2 / 3 * 2) + 0.083 + startAngle;
     for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, radius: 150, thickness: 30, startAngle: angle, endAngle: angle + 0.168};
+        scoreE[i] = {x:canvasData.centX, y:canvasData.centY, radius: 150, thickness: 30, startAngle: angle, endAngle: angle + 0.168};
         scoreE[i]["color"] = TranslateHueToTint(colors[i]);
         scoreE[i]["thickness"] = 0.05;
         scoreE[i]["radius"] = 0.45;
