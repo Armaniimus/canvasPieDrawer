@@ -1,191 +1,79 @@
-//global non specific vars
-const canvas = document.getElementById("newcanvas");
-const ctx = canvas.getContext("2d");
-
-//position variables
-let centerX;
-let centerY;
-let offsetX;
-let offsetY;
-
-const scoreE = [];
-const colors = ["#FE2712", "#FC600A", "#FB9902", "#FCCC1A", "#FEFE33", "#B2D732", "#66B032", "#347C98", "#0247FE", "#4424D6", "#8601AF", "#C21460"];
-
-const circleParts = [];
-const words = [];
-
-let startAngle = 0;
-
-
-
-function GenerateCanvas() {
+function RenderCanvas() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
     canvas.width = canvas.offsetWidth;
     canvas.height = canvas.width;
 
-    //position variables
-    centerX = canvas.width / 2;
-    centerY = canvas.height / 2;
     offsetX = GetOffsetX("newcanvas");
     offsetY = GetOffsetY("newcanvas");
+    centerX = canvas.width / 2 + offsetX;
+    centerY = canvas.height / 2 + offsetY;
 
-    ctx.clearRect(0,0,canvas.width,canvas.height);
+    for (let i = 0; i < circleParts.length; i++) {
+        circleParts[i].thickness = circleParts[i].thicknessMultiplier * canvas.width;
+        circleParts[i].radius = circleParts[i].radiusMultiplier * canvas.width;
+        circleParts[i].x = centerX;
+        circleParts[i].y = centerY;
+    }
 
-    GenerateTints(startAngle);
-    DrawCircle(scoreE);
+    words[0].radius = words[0].radiusMultiplier * canvas.width;
+    words[0].x = centerX;
+    words[0].y = centerY;
 
-    GenerateHues(startAngle);
-    DrawCircle(scoreE);
+    console.log(words);
 
-    GenerateTones(startAngle);
-    DrawCircle(scoreE);
-
-    GenerateShades(startAngle);
-    DrawCircle(scoreE);
-
-    // GenerateInnerCircle();
-    // DrawPie(scoreE);
-
-    let signs = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"]
-    words[0] = new DrawClockLikeWords(signs, ctx, canvas.width * 0.17, startAngle, canvas.width * 0.03);
-}
-
-function GenerateInnerCircle() {
-    scoreE = [];
-    scoreE[0] = {x:centerX, y:centerY, startAngle: -0.00, endAngle: 2 , color: "#fff"};
-    scoreE[0]["radius"] = (canvas.width * 0.25) - 1;
-}
-
-function GenerateHues(startAngle) {
-    let parts = 12;
-    let angle = (2 / 3 * 2) + 0.083 + startAngle;
-    canvas.width * 0.9;
-
-    for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, startAngle: angle, endAngle: angle + 0.168, color: colors[i]};
-        scoreE[i]["thickness"] = canvas.width * 0.05;
-        scoreE[i]["radius"] = canvas.width * 0.40;
-
-        if ( (i % 3) == 0 ) {
-            scoreE[i]["endAngle"] = angle + 0.168;
-            angle += 0.168;
-        } else {
-            scoreE[i]["endAngle"] = angle + 0.166;
-            angle += 0.166;
-        }
-
-        if ( (i % 4) == 0 ) {
-            scoreE[i]["radius"] = scoreE[i]["radius"] + canvas.width * 0.024;
-            scoreE[i]["thickness"] = scoreE[i]["thickness"] + canvas.width * 0.012;
-        }
+    for (var i = 0; i < 2; i++) {
+        RenderCircles()
+        words[0].render();
     }
 }
 
-function GenerateShades(startAngle) {
-    let parts = 12;
-    let angle = (2 / 3 * 2) + 0.083 + startAngle;
-    for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, startAngle: angle, endAngle: angle + 0.168};
-        scoreE[i]["color"] = TranslateHueToShade(colors[i]);
-        scoreE[i]["thickness"] = canvas.width * 0.05;
-        scoreE[i]["radius"] = canvas.width * 0.30;
-
-        if ( (i % 3) == 0 ) {
-            scoreE[i]["endAngle"] = angle + 0.168;
-            angle += 0.168;
-        } else {
-            scoreE[i]["endAngle"] = angle + 0.166;
-            angle += 0.166;
-        }
-
-        if ( (i % 4) == 0 ) {
-            scoreE[i]["radius"] = scoreE[i]["radius"] + canvas.width * 0.006;
-            scoreE[i]["thickness"] = scoreE[i]["thickness"] + canvas.width * 0.006;
-        }
-    }
-}
-
-function GenerateTones(startAngle) {
-    let parts = 12;
-    let angle = (2 / 3 * 2) + 0.083 + startAngle;
-
-    for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, radius: 90, thickness: 30, startAngle: angle, endAngle: angle + 0.168};
-        scoreE[i]["color"] = TranslateHueToTone(colors[i]);
-        scoreE[i]["thickness"] = canvas.width * 0.05;
-        scoreE[i]["radius"] = canvas.width * 0.35;
-
-        if ( (i % 3) == 0 ) {
-            scoreE[i]["endAngle"] = angle + 0.168;
-            angle += 0.168;
-        } else {
-            scoreE[i]["endAngle"] = angle + 0.166;
-            angle += 0.166;
-        }
-
-        if ( (i % 4) == 0 ) {
-            scoreE[i]["thickness"] = scoreE[i]["thickness"] + canvas.width * 0.006;
-            scoreE[i]["radius"] = scoreE[i]["radius"] + canvas.width * 0.012;
-        }
-    }
-}
-
-function GenerateTints(startAngle) {
-    let parts = 12;
-    let angle = (2 / 3 * 2) + 0.083 + startAngle;
-    for (let i = 0; i < parts; i++) {
-        scoreE[i] = {x:centerX, y:centerY, radius: 150, thickness: 30, startAngle: angle, endAngle: angle + 0.168};
-        scoreE[i]["color"] = TranslateHueToTint(colors[i]);
-        scoreE[i]["thickness"] = canvas.width * 0.05;
-        scoreE[i]["radius"] = canvas.width * 0.45;
-
-        if ( (i % 3) == 0 ) {
-            scoreE[i]["endAngle"] = angle + 0.168;
-            angle += 0.168;
-        } else {
-            scoreE[i]["endAngle"] = angle + 0.166;
-            angle += 0.166;
-        }
-
-        if ( (i % 4) == 0 ) {
-            scoreE[i]["radius"] = scoreE[i]["radius"] + canvas.width * 0.030;
-            scoreE[i]["thickness"] = scoreE[i]["thickness"] + canvas.width * 0.006;
-        }
-    }
-}
-
-function DrawCircle(array) {
-    for (let i = 0; i < array.length; i++) {
-        const ii = circleParts.length;
-        circleParts[ii] = new DrawCirclePiece(array[i]["x"], array[i]["y"], array[i].radius, array[i].thickness, array[i].startAngle, array[i].endAngle);
-
-        circleParts[ii].strokeStyle = "000";
-        circleParts[ii].lineWidth = 0.4;
-        circleParts[ii].fillStyle = array[i]["color"];
-    }
-}
-
-function DrawPie(array) {
-    for (let i = 0; i < array.length; i++) {
-        DrawPiePiece(array[i]["x"], array[i]["y"], array[i].radius, array[i].startAngle, array[i].endAngle, array[i]["color"]);
-    }
-}
-
-function Render() {
-    ctx.clearRect(0,0,canvas.width,canvas.height);
-    RenderCircles()
-    words[0].render();
-}
 
 function RenderCircles() {
     for (var i = 0; i < circleParts.length; i++) {
         circleParts[i].ToggleFill();
         circleParts[i].ToggleStroke();
-        // circleParts[i].ToggleFill();
         circleParts[i].Render();
     }
 }
 
+function ReGenerateCanvas() {
+    GenerateCanvas();
+    RenderCanvas();
+}
 
-GenerateCanvas();
-Render();
-window.addEventListener('resize', GenerateCanvas);
+ReGenerateCanvas()
+window.addEventListener('resize', RenderCanvas);
+
+
+function RotateWheel() {
+
+    this.run = function() {
+        for (var i = 0; i < circleParts.length; i++) {
+            circleParts[i].startAngle -= this.angle;
+            circleParts[i].endAngle -= this.angle;
+        }
+        words[0].startAngle -= this.angle;
+        RenderCanvas();
+    }
+
+    this.clockWise = function() {
+        this.angle = -0.0015;
+        this.run()
+    }
+
+    this.counterClockWise = function() {
+        this.angle = 0.0015;
+        this.run()
+    }
+}
+
+// const rotate = new RotateWheel;
+// setInterval(function () {
+//     // console.log("")
+//     // for (let i = 0; i < circleParts.length; i++) {
+//     //     // circleParts[i].radius += 0.20;
+//     //     // circleParts[i].thickness -= 2;
+//     // }
+//
+//     rotate.clockWise();
+// }, 66);

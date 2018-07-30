@@ -1,13 +1,15 @@
-function DrawClockLikeWords(array, ctx, radius, startAngle, fontSize) {
-    this.fillStyle = '#222';
+function DrawClockLikeWords(array, x, y, radius, startAngle, fontSize) {
     this.array = array;
-    this.radius = radius;
     this.startAngle = startAngle;
 
-    this.x = canvas.width / 2;
-    this.y = canvas.height / 2;
+    this.x = x;
+    this.y = y;
+
+    this.radius = radius;
+    this.radiusMultiplier = radius;
 
     this.font = fontSize + "px arial"
+    this.fillStyle = '#222';
 
     this.render = function() {
         ctx.font = this.font;
@@ -22,7 +24,6 @@ function DrawClockLikeWords(array, ctx, radius, startAngle, fontSize) {
             const halfMax = max / 2
             const ang = (i * Math.PI / halfMax) + (this.startAngle * Math.PI);
 
-            // let ang = (i * 2/array.length * Math.PI + this.startAngle * Math.PI);
             ctx.rotate(ang);
             ctx.translate(0, - radius);
             ctx.rotate(- ang);
@@ -46,10 +47,14 @@ function DrawPiePiece(x, y, radius, startAngle, endAngle, color) {
 function DrawCirclePiece(x, y, radius, thickness, startAngle, endAngle) {
     this.x = x; //sets start x
     this.y = y; //sets start y
-    this.radius = radius; //sets radius
-    this.thickness = thickness;
     this.startAngle = startAngle;
     this.endAngle = endAngle;
+
+    this.radius = radius; //sets radius
+    this.radiusMultiplier = radius;
+
+    this.thickness = thickness;
+    this.thicknessMultiplier = thickness;
 
     this.strokeStyle = "000";
     this.lineWidth = 1;
