@@ -8,11 +8,26 @@ function DrawClockLikeWords(array, x, y, radius, startAngle, fontSize) {
     this.radius = radius;
     this.radiusMultiplier = radius;
 
-    this.font = fontSize + "px arial"
+    this.font = fontSize;
+    this.fontSizeMultiplier = fontSize;
+
     this.fillStyle = '#222';
 
+    this.setCenter = function(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    this.setFont = function(size) {
+        this.font = this.fontSizeMultiplier * size;
+    }
+
+    this.setRadius = function(size) {
+        this.radius = this.radiusMultiplier * size;
+    }
+
     this.render = function() {
-        ctx.font = this.font;
+        ctx.font = this.font + "px arial";
         ctx.fillStyle = this.fillStyle
         ctx.textBaseline = "middle";
         ctx.textAlign = "center";
@@ -25,11 +40,11 @@ function DrawClockLikeWords(array, x, y, radius, startAngle, fontSize) {
             const ang = (i * Math.PI / halfMax) + (this.startAngle * Math.PI);
 
             ctx.rotate(ang);
-            ctx.translate(0, - radius);
+            ctx.translate(0, - this.radius);
             ctx.rotate(- ang);
-            ctx.fillText(array[i].toString(), 0, 0);
+            ctx.fillText(this.array[i].toString(), 0, 0);
             ctx.rotate(ang);
-            ctx.translate(0, radius);
+            ctx.translate(0, this.radius);
             ctx.rotate(- ang);
         }
         ctx.translate(- this.x, - this.y);
@@ -60,7 +75,20 @@ function DrawCirclePiece(x, y, radius, thickness, startAngle, endAngle) {
     this.lineWidth = 1;
     this.fillStyle = "000";
 
-    this.Render = function() {
+    this.setCenter = function(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    this.setRadius = function(size) {
+        this.radius = this.radiusMultiplier * size;
+    }
+
+    this.setThickness = function(size) {
+        this.thickness = this.thicknessMultiplier * size;
+    }
+
+    this.render = function() {
         let startXY = CalcXYBasedOnSinRule(this.startAngle, this.radius - this.thickness, this.x, this.y);
         let firstLine = CalcXYBasedOnSinRule(this.startAngle, this.radius, this.x, this.y);
 
@@ -110,7 +138,7 @@ function DrawRectangle(startX, startY, height, width, color) {
     this.height = height;
     this.color = color;
 
-    this.Render = function() {
+    this.render = function() {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }

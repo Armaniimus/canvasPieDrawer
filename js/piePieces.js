@@ -9,17 +9,14 @@ function RenderCanvas() {
     centerY = canvas.height / 2 + offsetY;
 
     for (let i = 0; i < circleParts.length; i++) {
-        circleParts[i].thickness = circleParts[i].thicknessMultiplier * canvas.width;
-        circleParts[i].radius = circleParts[i].radiusMultiplier * canvas.width;
-        circleParts[i].x = centerX;
-        circleParts[i].y = centerY;
+        circleParts[i].setThickness(canvas.width);
+        circleParts[i].setRadius(canvas.width);
+        circleParts[i].setCenter(centerX, centerY);
     }
 
-    words[0].radius = words[0].radiusMultiplier * canvas.width;
-    words[0].x = centerX;
-    words[0].y = centerY;
-
-    console.log(words);
+    words[0].setRadius(canvas.width);
+    words[0].setFont(canvas.width);
+    words[0].setCenter(centerX, centerY);
 
     for (var i = 0; i < 2; i++) {
         RenderCircles()
@@ -27,12 +24,11 @@ function RenderCanvas() {
     }
 }
 
-
 function RenderCircles() {
     for (var i = 0; i < circleParts.length; i++) {
         circleParts[i].ToggleFill();
         circleParts[i].ToggleStroke();
-        circleParts[i].Render();
+        circleParts[i].render();
     }
 }
 
