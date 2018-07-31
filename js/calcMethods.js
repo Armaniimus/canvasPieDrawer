@@ -37,16 +37,15 @@ function GetOffsetX( elem ) {
 }
 
 // calculates xy position based on angle and distance
-function CalcXYBasedOnSinRule(angle, distance, x, y) {
-    let r =  distance
-    let theta = (angle + 1) * Math.PI;
+function CalcXYBasedOnSinRule(angle, distance, startX, startY) {
+    let theta = (angle+1) * Math.PI;
 
-    let returnX = x - r * Math.cos(theta);
-    let returnY = y - r * Math.sin(theta);
+    let returnX = startX - distance * Math.cos(theta);
+    let returnY = startY - distance * Math.sin(theta);
 
     return { x:returnX, y:returnY};
 }
 
-function NegateNr(nr) {
+function Negate(nr) {
     return nr - (nr*2);
 }
