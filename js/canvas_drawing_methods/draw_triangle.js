@@ -25,9 +25,9 @@ function DrawTriangle(x, y, angleA, sideAC, sideAB, rotation, color) {
     }
 
     this.calcCorners = function(x,y) {
-        this.pointAlpha = CalcXYBasedOnSinRule(this.rotation, this.sideAC/2, x, y);
-        this.pointCharly = CalcXYBasedOnSinRule(this.rotation+1, this.sideAC/2, x, y);
-        this.pointBravo = CalcXYBasedOnSinRule(this.rotation - this.angleA, this.sideAB, this.pointAlpha.x, this.pointAlpha.y);
+        this.pointAlpha = CalcXYBasedOnSinRule(this.rotation+1, this.sideAC/2, x, y);
+        this.pointCharly = CalcXYBasedOnSinRule(this.rotation, this.sideAC/2, x, y);
+        this.pointBravo = CalcXYBasedOnSinRule(this.rotation + this.angleA, this.sideAB, this.pointAlpha.x, this.pointAlpha.y);
     }
 
     this.markCenter = function () {
