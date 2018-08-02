@@ -1,191 +1,206 @@
-function ValidateHex(hexcode) {
-    hexcode = hexcode.replace(/#/, '');
-    if (hexcode.length !== 3 && hexcode.length !== 6) {
-        console.log("incorrect length FilterHex()");
-        return false;
+class convertHexCodes {
+    constructor(hex) {
+        this.hex = hex;
 
-    } else if (hexcode.length == 3) {
-        let newhex = '';
+        this.tint = this._tint()
+        this.hue = this._hue()
+        this.tone = this._tone()
+        this.shade = this._shade()
+    }
 
-        for (var i = 0; i < 3; i++) {
-            newhex += hexcode[i] + hexcode[i]
+    validateHex() {
+        let hexcode = this.hex.replace(/#/, '');
+        if (hexcode.length !== 3 && hexcode.length !== 6) {
+            console.log("incorrect length FilterHex()");
+            return false;
+
+        } else if (hexcode.length == 3) {
+            let newhex = '';
+
+            for (var i = 0; i < 3; i++) {
+                newHex += hexcode[i] + hexcode[i]
+            }
+            hexcode = newHex;
         }
-        hexcode = newhex;
-    }
 
-    let a = hexcode.match(/[a-fA-F0-9]{6}/)
-    if (null !== (hexcode.match(/[a-fA-F0-9]{6}/) ) ) {
-        hexcode = "#" + hexcode;
-        return hexcode;
+        let a = hexcode.match(/[a-fA-F0-9]{6}/)
+        if (null !== (hexcode.match(/[a-fA-F0-9]{6}/) ) ) {
+            hexcode = "#" + hexcode;
+            return hexcode;
 
-    } else {
-        console.log("invalid hex character FilterHex()");
-        return false;
-    }
-}
-
-function TranslateHextoRgbArray(hexcode) {
-    // remove the #
-    hexcode = hexcode.replace(/#/, '');
-
-    // convert hexcode string into an array
-    hexcode = hexcode.split("");
-
-    // convert a-f and A-F to numbers
-    for (var i = 0; i < 6; i++) {
-        switch (hexcode[i]) {
-            case 'A':
-            case 'a':
-                hexcode[i] = 10;
-                break;
-
-            case 'B':
-            case 'b':
-                hexcode[i] = 11;
-                break;
-
-            case 'C':
-            case 'c':
-                hexcode[i] = 12;
-                break;
-
-            case 'D':
-            case 'd':
-                hexcode[i] = 13;
-                break;
-
-            case 'E':
-            case 'e':
-                hexcode[i] = 14;
-                break;
-
-            case 'F':
-            case 'f':
-                hexcode[i] = 15;
-                break;
+        } else {
+            console.log("invalid hex character FilterHex()");
+            return false;
         }
     }
 
-    // create red rgb code from hexcode array
-    let red = parseInt(hexcode[0]) * 16;
-    red += parseInt(hexcode[1]);
+    translateHextoRgbArray(hexcode) {
+        // remove the #
+        hexcode = hexcode.replace(/#/, '');
 
-    // create green rgb code from hexcode array
-    let green = parseInt(hexcode[2]) * 16;
-    green += parseInt(hexcode[3]);
+        // convert hexcode string into an array
+        hexcode = hexcode.split("");
 
-    // create blue rgb code from hexcode array
-    let blue = parseInt(hexcode[4]) * 16;
-    blue += parseInt(hexcode[5]);
-
-    return [red, green, blue];
-}
-
-function AverageRgbArray(input_rgbArray, mix_rgbArray) {
-    let output_rgbArray = [];
-    for (var i = 0; i < input_rgbArray.length; i++) {
-        let combinedRgb = input_rgbArray[i] + mix_rgbArray[i];
-        output_rgbArray[i] = Math.round(combinedRgb/2);
-    }
-    return output_rgbArray;
-}
-
-function TranslateRgbArraytoHex(rgbArray) {
-    let hexcode = "";
-    for (let i = 0; i < rgbArray.length; i++) {
-        let digit = [];
-        digit[0] = rgbArray[i] % 16;
-        digit[1] = (rgbArray[i] - digit[0]) / 16;
-
-        for (let ii = digit.length-1; ii > -1 ; ii--) {
-            switch (digit[ii]) {
-                case 10:
-                    hexcode += 'A'
+        // convert a-f and A-F to numbers
+        for (var i = 0; i < 6; i++) {
+            switch (hexcode[i]) {
+                case 'A':
+                case 'a':
+                    hexcode[i] = 10;
                     break;
 
-                case 11:
-                    hexcode += 'B'
+                case 'B':
+                case 'b':
+                    hexcode[i] = 11;
                     break;
 
-                case 12:
-                    hexcode += 'C'
+                case 'C':
+                case 'c':
+                    hexcode[i] = 12;
                     break;
 
-                case 13:
-                    hexcode += 'D'
+                case 'D':
+                case 'd':
+                    hexcode[i] = 13;
                     break;
 
-                case 14:
-                    hexcode += 'E'
+                case 'E':
+                case 'e':
+                    hexcode[i] = 14;
                     break;
 
-                case 15:
-                    hexcode += 'F'
-                    break;
-
-                default:
-                    hexcode += digit[ii];
+                case 'F':
+                case 'f':
+                    hexcode[i] = 15;
                     break;
             }
         }
+
+        // create red rgb code from hexcode array
+        let red = parseInt(hexcode[0]) * 16;
+        red += parseInt(hexcode[1]);
+
+        // create green rgb code from hexcode array
+        let green = parseInt(hexcode[2]) * 16;
+        green += parseInt(hexcode[3]);
+
+        // create blue rgb code from hexcode array
+        let blue = parseInt(hexcode[4]) * 16;
+        blue += parseInt(hexcode[5]);
+
+        return [red, green, blue];
     }
-    hexcode = "#" + hexcode;
-    return hexcode;
-}
 
-function TranslateHueToTint(inputHex) {
-    let = mixerHex = "#ffffff";
+    averageRgbArray(input_rgbArray, mix_rgbArray) {
+        let output_rgbArray = [];
+        for (var i = 0; i < input_rgbArray.length; i++) {
+            let combinedRgb = input_rgbArray[i] + mix_rgbArray[i];
+            output_rgbArray[i] = Math.round(combinedRgb/2);
+        }
+        return output_rgbArray;
+    }
 
-    // validate Input
-    inputHex = ValidateHex(inputHex);
+    translateRgbArraytoHex(rgbArray) {
+        let hexcode = "";
+        for (let i = 0; i < rgbArray.length; i++) {
+            let digit = [];
+            digit[0] = rgbArray[i] % 16;
+            digit[1] = (rgbArray[i] - digit[0]) / 16;
 
-    // convert Both to rpgArrays;
-    let input_rgbArray = TranslateHextoRgbArray(inputHex);
-    let mix_rgbArray = TranslateHextoRgbArray(mixerHex);
+            for (let ii = digit.length-1; ii > -1 ; ii--) {
+                switch (digit[ii]) {
+                    case 10:
+                        hexcode += 'A'
+                        break;
 
-    // average both
-    let output_rgbArray = AverageRgbArray(input_rgbArray, mix_rgbArray);
+                    case 11:
+                        hexcode += 'B'
+                        break;
 
-    // convert back to hex
-    let outputHex = TranslateRgbArraytoHex(output_rgbArray);
+                    case 12:
+                        hexcode += 'C'
+                        break;
 
-    return outputHex;
-}
+                    case 13:
+                        hexcode += 'D'
+                        break;
 
-function TranslateHueToTone(inputHex) {
-    let = mixerHex = "#888888";
+                    case 14:
+                        hexcode += 'E'
+                        break;
 
-    // validate Input
-    inputHex = ValidateHex(inputHex);
+                    case 15:
+                        hexcode += 'F'
+                        break;
 
-    // convert Both to rpgArrays;
-    let input_rgbArray = TranslateHextoRgbArray(inputHex);
-    let mix_rgbArray = TranslateHextoRgbArray(mixerHex);
+                    default:
+                        hexcode += digit[ii];
+                        break;
+                }
+            }
+        }
+        hexcode = "#" + hexcode;
+        return hexcode;
+    }
 
-    // average both
-    let output_rgbArray = AverageRgbArray(input_rgbArray, mix_rgbArray);
+    _tint() {
+        const mixerHex = "#ffffff";
 
-    // convert back to hex
-    let outputHex = TranslateRgbArraytoHex(output_rgbArray);
+        // validate Input
+        const inputHex = this.validateHex();
 
-    return outputHex;
-}
+        // convert Both to rpgArrays;
+        const input_rgbArray = this.translateHextoRgbArray(inputHex);
+        const mix_rgbArray = this.translateHextoRgbArray(mixerHex);
 
-function TranslateHueToShade(inputHex) {
-    let = mixerHex = "#000000";
+        // average both
+        const output_rgbArray = this.averageRgbArray(input_rgbArray, mix_rgbArray);
 
-    // validate Input
-    inputHex = ValidateHex(inputHex);
+        // convert back to hex
+        const outputHex = this.translateRgbArraytoHex(output_rgbArray);
 
-    // convert Both to rpgArrays;
-    let input_rgbArray = TranslateHextoRgbArray(inputHex);
-    let mix_rgbArray = TranslateHextoRgbArray(mixerHex);
+        return outputHex;
+    }
 
-    // average both
-    let output_rgbArray = AverageRgbArray(input_rgbArray, mix_rgbArray);
+    _hue() {
+        return this.hex;
+    }
 
-    // convert back to hex
-    let outputHex = TranslateRgbArraytoHex(output_rgbArray);
+    _tone() {
+        const mixerHex = "#888888";
 
-    return outputHex;
+        // validate Input
+        const inputHex = this.validateHex();
+
+        // convert Both to rpgArrays;
+        const input_rgbArray = this.translateHextoRgbArray(inputHex);
+        const mix_rgbArray = this.translateHextoRgbArray(mixerHex);
+
+        // average both
+        const output_rgbArray = this.averageRgbArray(input_rgbArray, mix_rgbArray);
+
+        // convert back to hex
+        const outputHex = this.translateRgbArraytoHex(output_rgbArray);
+
+        return outputHex;
+    }
+
+    _shade() {
+        const mixerHex = "#000000";
+
+        // validate Input
+        const inputHex = this.validateHex();
+
+        // convert Both to rpgArrays;
+        const input_rgbArray = this.translateHextoRgbArray(inputHex);
+        const mix_rgbArray = this.translateHextoRgbArray(mixerHex);
+
+        // average both
+        const output_rgbArray = this.averageRgbArray(input_rgbArray, mix_rgbArray);
+
+        // convert back to hex
+        const outputHex = this.translateRgbArraytoHex(output_rgbArray);
+
+        return outputHex;
+    }
 }
