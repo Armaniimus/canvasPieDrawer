@@ -1,34 +1,36 @@
 // function drawArcs(array) {
-function DrawCirclePiece(x, y, radius, thickness, startAngle, endAngle) {
-    this.x = x; //sets start x
-    this.y = y; //sets start y
-    this.startAngle = startAngle;
-    this.endAngle = endAngle;
+class DrawCirclePiece {
+    constructor(x, y, radius, thickness, startAngle, endAngle){
+        this.x = x; //sets start x
+        this.y = y; //sets start y
+        this.startAngle = startAngle;
+        this.endAngle = endAngle;
 
-    this.radius = radius; //sets radius
-    this.radiusMultiplier = radius;
+        this.radius = radius; //sets radius
+        this.radiusPercentage = radius;
 
-    this.thickness = thickness;
-    this.thicknessMultiplier = thickness;
+        this.thickness = thickness;
+        this.thicknessPercentage = thickness;
 
-    this.strokeStyle = "000";
-    this.lineWidth = 1;
-    this.fillStyle = "000";
+        this.strokeStyle = "000";
+        this.lineWidth = 1;
+        this.fillStyle = "000";
+    }
 
-    this.setCenter = function(x, y) {
+    setCenter(x, y) {
         this.x = x;
         this.y = y;
     }
 
-    this.setRadius = function(size) {
-        this.radius = this.radiusMultiplier * size;
+    setRadius(rawSize) {
+        this.radius = this.radiusPercentage * rawSize;
     }
 
-    this.setThickness = function(size) {
-        this.thickness = this.thicknessMultiplier * size;
+    setThickness(rawSize) {
+        this.thickness = this.thicknessPercentage * rawSize;
     }
 
-    this.render = function() {
+    render() {
         let startXY = CalcXYBasedOnSinRule(this.startAngle, this.radius - this.thickness, this.x, this.y);
         let firstLine = CalcXYBasedOnSinRule(this.startAngle, this.radius, this.x, this.y);
 
@@ -52,7 +54,7 @@ function DrawCirclePiece(x, y, radius, thickness, startAngle, endAngle) {
         }
     }
 
-    this.ToggleFill = function() {
+    ToggleFill() {
         if (this.fill) {
             this.fill = false
 
@@ -61,7 +63,7 @@ function DrawCirclePiece(x, y, radius, thickness, startAngle, endAngle) {
         }
     }
 
-    this.ToggleStroke = function() {
+    ToggleStroke() {
         if (this.stroke) {
             this.stroke = false
 
