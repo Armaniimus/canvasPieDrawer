@@ -1,40 +1,42 @@
-function DrawClockLikeWords(array, x, y, radius, startAngle, fontSize) {
-    this.array = array;
-    this.startAngle = startAngle;
+class DrawClockLikeWords {
+    constructor(array, x, y, radius, startAngle, fontSize) {
+        this.array = array;
+        this.startAngle = startAngle;
 
-    this.x = x;
-    this.y = y;
+        this.x = x;
+        this.y = y;
 
-    this.radius = radius;
-    this.radiusMultiplier = radius;
+        this.radius = radius;
+        this.radiusPercentage = radius;
 
-    this.font = fontSize;
-    this.fontSizeMultiplier = fontSize;
+        this.font = fontSize;
+        this.fontSizePercentage = fontSize;
 
-    this.fillStyle = '#222';
+        this.fillStyle = '#222';
+    }
 
-    this.setCenter = function(x, y) {
+    setCenter(x, y) {
         this.x = x;
         this.y = y;
     }
 
-    this.setFont = function(size) {
-        this.font = this.fontSizeMultiplier * size;
+    setFont(rawSize) {
+        this.font = this.fontSizePercentage * rawSize;
     }
 
-    this.setRadius = function(size) {
-        this.radius = this.radiusMultiplier * size;
+    setRadius(rawSize) {
+        this.radius = this.radiusPercentage * rawSize;
     }
 
-    this.render = function() {
+    render() {
         ctx.font = this.font + "px arial";
         ctx.fillStyle = this.fillStyle
         ctx.textBaseline = "middle";
         ctx.textAlign = "center";
 
+        const max = this.array.length
         ctx.translate(this.x, this.y);
 
-        const max = this.array.length
         for(let i = 0; i < max; i++){
             const halfMax = max / 2
             const ang = (i * Math.PI / halfMax) + (this.startAngle * Math.PI);
