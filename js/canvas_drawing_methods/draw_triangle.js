@@ -1,36 +1,38 @@
-function DrawTriangle(x, y, angleA, sideAC, sideAB, rotation, color) {
-    this.x = x;
-    this.y = y;
+class DrawTriangle {
+    constructor(x, y, angleA, sideAC, sideAB, rotation, color) {
+        this.x = x;
+        this.y = y;
 
-    this.angleA = angleA;
+        this.angleA = angleA;
 
-    this.sideAC = sideAC;
-    this.sideAB = sideAB;
+        this.sideAC = sideAC;
+        this.sideAB = sideAB;
 
-    this.rotation = rotation;
-    this.fillStyle = color;
-    this.strokeStyle = color;
+        this.rotation = rotation;
+        this.fillStyle = color;
+        this.strokeStyle = color;
+    }
 
-    this.setCenter = function() {
+    setCenter() {
         this.center = {}
         this.center.x = (this.pointAlpha.x + this.pointBravo.x + this.pointCharly.x) /3
         this.center.y = (this.pointAlpha.y + this.pointBravo.y + this.pointCharly.y) /3
     }
 
-    this.setOffset = function() {
+    setOffset() {
         this.setCenter()
         this.offset = {}
         this.offset.x = this.x - this.center.x;
         this.offset.y = this.y - this.center.y;
     }
 
-    this.calcCorners = function(x,y) {
+    calcCorners(x, y) {
         this.pointAlpha = CalcXYBasedOnSinRule(this.rotation+1, this.sideAC/2, x, y);
         this.pointCharly = CalcXYBasedOnSinRule(this.rotation, this.sideAC/2, x, y);
         this.pointBravo = CalcXYBasedOnSinRule(this.rotation + this.angleA, this.sideAB, this.pointAlpha.x, this.pointAlpha.y);
     }
 
-    this.markCenter = function () {
+    markCenter() {
         ctx.strokeStyle = "#555";
         ctx.beginPath();
         ctx.lineWidth = 1;
@@ -42,7 +44,7 @@ function DrawTriangle(x, y, angleA, sideAC, sideAB, rotation, color) {
         ctx.stroke();
     }
 
-    this.renderCenter = function() {
+    renderCenter() {
         this.offset = {}
         this.offset.x = 0;
         this.offset.y = 0;
@@ -52,7 +54,7 @@ function DrawTriangle(x, y, angleA, sideAC, sideAB, rotation, color) {
         this.setCenter();
     }
 
-    this.render = function() {
+    render() {
         this.renderCenter()
 
         ctx.beginPath();
@@ -77,7 +79,7 @@ function DrawTriangle(x, y, angleA, sideAC, sideAB, rotation, color) {
         }
     }
 
-    this.toggleStroke = function() {
+    toggleStroke() {
         if (this.stroke) {
             this.stroke = false
         } else {
@@ -85,7 +87,7 @@ function DrawTriangle(x, y, angleA, sideAC, sideAB, rotation, color) {
         }
     }
 
-    this.toggleFill = function() {
+    toggleFill() {
         if (this.fill) {
             this.fill = false
         } else {
@@ -93,7 +95,7 @@ function DrawTriangle(x, y, angleA, sideAC, sideAB, rotation, color) {
         }
     }
 
-    this.toggleMarkCenter = function() {
+    toggleMarkCenter() {
         if (this.markCenterFlag) {
             this.markCenterFlag = false
         } else {
