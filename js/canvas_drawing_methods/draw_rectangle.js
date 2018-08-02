@@ -1,4 +1,4 @@
-class DrawRectangle() {
+class DrawRectangle {
     constructor(startX, startY, height, width, color) {
         this.x = startX;
         this.y = startY;
@@ -7,7 +7,7 @@ class DrawRectangle() {
         this.color = color;
     }
 
-    this.render = function() {
+    render() {
         ctx.fillStyle = this.color;
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
