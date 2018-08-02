@@ -1,28 +1,32 @@
-function draw_simplePolygon(radius, rotation, x, y, corners) {
-    this.fillColor = "#000";
-    this.strokeColor = "#000";
+class draw_simplePolygon {
+    constructor(radius, rotation, x, y, corners) {
+        this.fillColor = "#000";
+        this.strokeColor = "#000";
 
-    if (corners > 2) {
-        this.sideDistance = Math.sqrt( (radius * radius) - (radius/2 * radius/2) );
+        if (corners > 2) {
+            this.sideDistance = Math.sqrt( (radius * radius) - (radius/2 * radius/2) );
+        }
+
+        this.radius = radius;
+        this.rotation = rotation;
+        this.corners = corners;
+
+        this.center = {}
+        this.center.x = x;
+        this.center.y = y;
+        this.cornDiff = 2 / this.corners;
+
+        this.calc()
     }
 
-    this.radius = radius;
-    this.rotation = rotation;
-    this.corners = corners;
-
-    this.center = {}
-    this.center.x = x;
-    this.center.y = y;
-    this.cornDiff = 2 / this.corners;
-
-    this.calc = function() {
+    calc() {
         this.point = []
         for (let i = 0; i < this.corners; i++) {
             this.point[i] = CalcXYBasedOnSinRule(this.rotation + (this.cornDiff*i), this.radius, this.center.x, this.center.y)
         }
     }
 
-    this.render = function() {
+    render() {
         ctx.beginPath();
 
         let lastL = (this.point.length) -1
@@ -49,7 +53,7 @@ function draw_simplePolygon(radius, rotation, x, y, corners) {
         }
     }
 
-    this.markCenter = function () {
+    markCenter() {
         ctx.strokeStyle = "#555";
         ctx.beginPath();
         ctx.lineWidth = 1;
@@ -61,7 +65,7 @@ function draw_simplePolygon(radius, rotation, x, y, corners) {
         ctx.stroke();
     }
 
-    this.toggleStroke = function() {
+    toggleStroke() {
         if (this.stroke) {
             this.stroke = false
         } else {
@@ -69,7 +73,7 @@ function draw_simplePolygon(radius, rotation, x, y, corners) {
         }
     }
 
-    this.toggleFill = function() {
+    toggleFill() {
         if (this.fill) {
             this.fill = false
         } else {
@@ -77,13 +81,11 @@ function draw_simplePolygon(radius, rotation, x, y, corners) {
         }
     }
 
-    this.toggleMarkCenter = function() {
+    toggleMarkCenter() {
         if (this.markCenterFlag) {
             this.markCenterFlag = false
         } else {
             this.markCenterFlag = true
         }
     }
-
-    this.calc();
 }
