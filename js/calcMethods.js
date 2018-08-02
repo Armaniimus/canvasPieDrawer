@@ -46,6 +46,29 @@ function CalcXYBasedOnSinRule(angle, distance, startX, startY) {
     return { x:returnX, y:returnY};
 }
 
+function calcRadius(aX, aY, bX, bY) {
+    let cX;
+    let cY;
+
+    //get the x lenght for pytagoras
+    if (aX < bX) {
+        cX = Math.pow( (bX - aX), 2)// * (bX - aX)
+    } else {
+        cX = Math.pow( (aX - bX), 2);// * (aX - bX)
+    }
+
+    //get the y lenght for pytagoras
+    if (aY < bY) {
+        cY = Math.pow( (bY - aY), 2)// * (bY - aY)
+    } else {
+        cY = Math.pow( (aY - bY), 2)// * (aY - bY)
+    }
+    
+    return ( Math.sqrt(cX + cY) );
+}
+
 function Negate(nr) {
     return nr - (nr*2);
 }
+
+console.log( calcRadius(50, 50, 0, 0) )
