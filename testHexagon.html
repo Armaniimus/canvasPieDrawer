@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+    </head>
+    <body>
+        <canvas style="border: 1px solid black; width: 50%" id="my_canvas">
+
+        </canvas>
+    </body>
+</html>
+
+<script type="text/javascript" src="js/calcMethods.js"></script>
+
+<!-- setCanvasMetaData -->
+<script type="text/javascript" src="js/canvas_drawing_methods/set_canvas_meta_data.js"></script>
+
+<!-- include canvas_drawing_methods -->
+<script type="text/javascript" src="js/canvas_drawing_methods/draw_triangle.js"></script>
+<script type="text/javascript" src="js/canvas_drawing_methods/draw_rectangle.js"></script>
+<script type="text/javascript" src="js/canvas_drawing_methods/draw_simple_polygon.js"></script>
+
+<!-- round shapes -->
+<script type="text/javascript" src="js/canvas_drawing_methods/draw_circlepiece.js"></script>
+<script type="text/javascript" src="js/canvas_drawing_methods/draw_piepiece.js"></script>
+
+<!-- drawwords -->
+<script type="text/javascript" src="js/canvas_drawing_methods/draw_clocklikeword.js"></script>
+
+<!-- project jsscript -->
+<script type="text/javascript">
+    const canvas = document.getElementById("my_canvas");
+    const ctx = canvas.getContext("2d");
+    const canvasData = new setCanvasMetaData();
+    canvasData.setIdName("my_canvas");
+    canvasData.render();
+
+
+    let hexagon = []
+    hexagon[0] = new draw_simplePolygon(25, 0, 25, -25, 6);
+
+    function generateColumn(startX, offset) {
+        let ii = hexagon.length;
+        for (let i = 1; i < 12; i++) {
+
+            let x = hexagon[0].center.x + startX
+            let y = hexagon[0].center.y + hexagon[0].sideDistance*2 + offset
+
+            hexagon[ii] = new draw_simplePolygon(25, 0, x, y, 6);
+            hexagon[ii].toggleStroke()
+            hexagon[ii].toggleMarkCenter()
+            hexagon[ii].render()
+
+            offset += hexagon[0].sideDistance * (2*1.1 )
+            console.log(ii)
+            ii++
+        }
+    }
+
+    function generateHexGrid() {
+
+        for (let i = 0; i < 13; i++) {
+            let offset = 0;
+
+            if ( (i % 2) ) {
+                offset = hexagon[0].sideDistance *1.1
+            }
+            let x = hexagon[0].radius * 1.5 * i *1.1;
+
+            generateColumn(x, offset)
+        }
+    }
+
+    generateHexGrid()
+    hexagon[1].toggleFill()
+    hexagon[11].toggleFill()
+    hexagon[133].toggleFill()
+    hexagon[143].toggleFill()
+
+    hexagon[1].render()
+    hexagon[11].render()
+    hexagon[133].render()
+    hexagon[143].render()
+
+    // let hexagon1 = new draw_hexagon(100, 0, canvas.width/2, canvas.height/2, 6);
+    // hexagon1.toggleStroke()
+    // hexagon1.toggleMarkCenter()
+    // hexagon1.render()
+    //
+    // let hexagon2 = new draw_hexagon(100, 0, canvas.width/2, canvas.height/2 + hexagon1.sideDistance*2, 6)
+    // hexagon2.toggleStroke()
+    // hexagon2.toggleMarkCenter()
+    // hexagon2.render()
+    //
+    // let hexagon3 = new draw_hexagon(100, 0, canvas.width/2 + hexagon1.radius*1.5, canvas.height/2 + hexagon1.sideDistance, 6)
+    // hexagon3.toggleStroke()
+    // hexagon3.toggleMarkCenter()
+    // hexagon3.render()
+
+    setInterval(function () {
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+        for (var i = 0; i < hexagon.length; i++) {
+            hexagon[i].rotation += 0.0025;
+            hexagon[i].calc()
+            // hexagon1.angleA += 0.002
+            hexagon[i].render();
+        }
+
+    }, 15)
+</script>
