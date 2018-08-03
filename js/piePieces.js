@@ -1,16 +1,16 @@
 function RenderCanvas() {
-    canvasData.render()
-    ctx.clearRect(0, 0, canvasData.width, canvasData.height);
+    canvas.render()
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     for (let i = 0; i < circleParts.length; i++) {
-        circleParts[i].setThickness(canvasData.width);
-        circleParts[i].setRadius(canvasData.width);
-        circleParts[i].setCenter(canvasData.centX, canvasData.centY);
+        circleParts[i].setThickness(canvas.width);
+        circleParts[i].setRadius(canvas.width);
+        circleParts[i].setCenter(canvas.centX, canvas.centY);
     }
 
-    words[0].setRadius(canvasData.width);
-    words[0].setFont(canvasData.width);
-    words[0].setCenter(canvasData.centX, canvasData.centY);
+    words[0].setRadius(canvas.width);
+    words[0].setFont(canvas.width);
+    words[0].setCenter(canvas.centX, canvas.centY);
 
     for (var i = 0; i < 2; i++) {
         RenderCircles()

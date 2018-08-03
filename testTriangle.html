@@ -30,13 +30,10 @@
 
 <!-- project jsscript -->
 <script type="text/javascript">
-    const canvas = document.getElementById("my_canvas");
-    const ctx = canvas.getContext("2d");
-    const canvasData = new setCanvasMetaData();
-    canvasData.setIdName("my_canvas");
-    canvasData.render();
+    const canvas = new setCanvasMetaData("my_canvas");
+    const ctx = canvas.ctx
 
-    triangle1 = new DrawTriangle(canvasData.centX, canvasData.centY, 45/180, 250, 180, 1, "rgba(0, 125, 0, 0.75)");
+    triangle1 = new DrawTriangle(canvas.centX, canvas.centY, 45/180, 250, 180, 1, "rgba(0, 125, 0, 0.75)");
     // triangle1.toggleFill()
     triangle1.toggleStroke()
     triangle1.toggleMarkCenter()

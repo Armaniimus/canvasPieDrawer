@@ -30,12 +30,8 @@
 
 <!-- project jsscript -->
 <script type="text/javascript">
-    const canvas = document.getElementById("my_canvas");
-    const ctx = canvas.getContext("2d");
-    const canvasData = new setCanvasMetaData();
-    canvasData.setIdName("my_canvas");
-    canvasData.render();
-
+    const canvas = new setCanvasMetaData("my_canvas");
+    const ctx = canvas.ctx
 
     let hexagon = []
     hexagon[0] = new draw_simplePolygon(25, 0, 25, -25, 6);

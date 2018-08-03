@@ -1,11 +1,13 @@
-function setCanvasMetaData() {
-    this.render = function() {
-        let canvas = document.getElementById(this.idName);
-        canvas.width = canvas.offsetWidth;
-        canvas.height = canvas.width
+class setCanvasMetaData {
 
-        this.width = canvas.width;
-        this.height = canvas.height;
+    constructor(idName) {
+        this.idName = idName
+        this.ctx = document.getElementById(idName).getContext("2d")
+        this.render()
+    }
+
+    render() {
+        this.setHeight()
 
         this.offsetX = GetOffsetX(this.idName);
         this.offsetY = GetOffsetY(this.idName);
@@ -16,7 +18,12 @@ function setCanvasMetaData() {
         this.offsetCentY = this.height / 2 + this.offsetY;
     };
 
-    this.setIdName = function(name) {
-        this.idName = name;
+    setHeight() {
+        const el = document.getElementById(this.idName)
+        el.width = el.offsetWidth;
+        el.height = el.width
+
+        this.width = el.width
+        this.height = el.height
     }
 }
