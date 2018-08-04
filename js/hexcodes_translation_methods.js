@@ -1,7 +1,10 @@
 class convertHexCodes {
     constructor(hex) {
-        this.hex = hex;
+        this.setHex(hex)
+    }
 
+    setHex(hex) {
+        this.hex = hex;
         this.tint = this._tint()
         this.hue = this._hue()
         this.tone = this._tone()
@@ -142,10 +145,7 @@ class convertHexCodes {
         hexcode = "#" + hexcode;
         return hexcode;
     }
-
-    _tint() {
-        const mixerHex = "#ffffff";
-
+    _mixer(mixerHex) {
         // validate Input
         const inputHex = this.validateHex();
 
@@ -160,6 +160,11 @@ class convertHexCodes {
         const outputHex = this.translateRgbArraytoHex(output_rgbArray);
 
         return outputHex;
+    }
+
+    _tint() {
+        const mixerHex = "#ffffff";
+        return this._mixer(mixerHex)
     }
 
     _hue() {
@@ -167,40 +172,12 @@ class convertHexCodes {
     }
 
     _tone() {
-        const mixerHex = "#888888";
-
-        // validate Input
-        const inputHex = this.validateHex();
-
-        // convert Both to rpgArrays;
-        const input_rgbArray = this.translateHextoRgbArray(inputHex);
-        const mix_rgbArray = this.translateHextoRgbArray(mixerHex);
-
-        // average both
-        const output_rgbArray = this.averageRgbArray(input_rgbArray, mix_rgbArray);
-
-        // convert back to hex
-        const outputHex = this.translateRgbArraytoHex(output_rgbArray);
-
-        return outputHex;
+        const mixerHex = "#808080";
+        return this._mixer(mixerHex)
     }
 
     _shade() {
         const mixerHex = "#000000";
-
-        // validate Input
-        const inputHex = this.validateHex();
-
-        // convert Both to rpgArrays;
-        const input_rgbArray = this.translateHextoRgbArray(inputHex);
-        const mix_rgbArray = this.translateHextoRgbArray(mixerHex);
-
-        // average both
-        const output_rgbArray = this.averageRgbArray(input_rgbArray, mix_rgbArray);
-
-        // convert back to hex
-        const outputHex = this.translateRgbArraytoHex(output_rgbArray);
-
-        return outputHex;
+        return this._mixer(mixerHex)
     }
 }
