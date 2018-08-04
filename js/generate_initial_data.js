@@ -1,5 +1,5 @@
 //global non specific vars
-const canvas = new setCanvasMetaData("newcanvas");
+const canvas = new setCanvasMetaData("colorWheel");
 const ctx = canvas.ctx;
 
 const scoreE = [];
