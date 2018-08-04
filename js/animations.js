@@ -1,6 +1,5 @@
-function RotateWheel() {
-
-    this.run = function() {
+class RotateWheel {
+    run() {
         for (var i = 0; i < circleParts.length; i++) {
             circleParts[i].startAngle -= this.angle;
             circleParts[i].endAngle -= this.angle;
@@ -9,24 +8,24 @@ function RotateWheel() {
         RenderCanvas();
     }
 
-    this.clockWise = function() {
+    clockWise() {
         this.angle = -0.0015;
         this.run()
     }
 
-    this.counterClockWise = function() {
+    counterClockWise() {
         this.angle = 0.0015;
         this.run()
     }
 }
 
-// const rotate = new RotateWheel;
-// setInterval(function () {
-//     // console.log("")
-//     // for (let i = 0; i < circleParts.length; i++) {
-//     //     // circleParts[i].radius += 0.20;
-//     //     // circleParts[i].thickness -= 2;
-//     // }
-//
-//     rotate.clockWise();
-// }, 66);
+const rotate = new RotateWheel;
+setInterval(function () {
+    // console.log("")
+    // for (let i = 0; i < circleParts.length; i++) {
+    //     // circleParts[i].radius += 0.20;
+    //     // circleParts[i].thickness -= 2;
+    // }
+
+    // rotate.clockWise();
+}, 66);
