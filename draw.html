@@ -7,15 +7,35 @@
 
 <body class="col-xs-12">
     <main class="col-xs-12 col-m-12">
-
         <div style="height: 100px">
             <br>
         </div>
         <div class="col-xs-12 col-m-12">
-            <div class="col-xs-12 col-m-12 canvascontainer">
-                <div class=" float col-xs-2"><br></div>
+            <div class="buttonconstainer row">
+                <div class="float col-xs-2"><br></div>
+                <div class="float col-xs-8">
+
+                    <div class="float buttonGroup">
+                        <button type="" name="button" onclick="handleRotate()">Rotate start/stop</button><br>
+                        <button type="" name="button" onclick="switchRotate()">Switch rotation direction</button>
+                    </div>
+
+                    <div class="float buttonGroup">
+                        <button type="" name="button" onclick="makeWhite()">Make White ...</button><br>
+                        <input type="number" id="partID" name="" value="0" min="0" max="47">
+                    </div>
+
+                    <div class="float buttonGroup">
+                        <button type="button" name="button" onclick="reset()">Reset</button>
+                    </div>
+                </div>
+                <div class="float col-xs-2"><br></div>
+            </div>
+
+            <div class="row canvascontainer">
+                <div class="float col-xs-2"><br></div>
                 <canvas style="border:1px black solid;" id="colorWheel" class="float col-xs-8"></canvas> <!--height is 100%-->
-                <div class=" float col-xs-2"><br></div>
+                <div class="float col-xs-2"><br></div>
             </div>
         </div>
     </main>
